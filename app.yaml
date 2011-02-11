@@ -1,6 +1,5 @@
-#application: lehoangkevin
-application: optimalogiclabs
-version: 2
+application: blogofile-gae-demo
+version: 1
 runtime: python
 api_version: 1
 

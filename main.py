@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 #
-# Copyright 2007 Google Inc.
+# Copyright 2011 Kevin H Le
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -29,27 +29,26 @@ class PageHandler(webapp.RequestHandler):
 
 class RssHandler(webapp.RequestHandler):
     def get(self):
+        #self.response.out.write(self.request.path)
         self.response.headers['Content-Type'] = 'application/xml'
-        self.response.out.write(template.render('blog/feed/index.xml', {}))
+        self.response.out.write(template.render(self.request.path[1:] + '/index.xml', {}))
 
 class RedirectedHandler(webapp.RequestHandler):
     def get(self):        
-        #self.response.out.write(path)
+        #self.response.out.write(self.request.path)
         self.response.out.write(template.render(self.request.path[1:], {}))		
 
 class MainHandler(webapp.RequestHandler):
     def get(self):
-        path = self.request.path + '/index.html'
-        #self.response.out.write(path)
-        self.redirect(path)
-        #self.response.out.write('Main')
         #self.response.out.write(self.request.path)
-        #self.response.out.write(template.render('index.html', {}))
+        self.redirect(self.request.path + '/index.html')        
 
 def main():
     application = webapp.WSGIApplication([
         ('/', IndexHandler),
-        ('/blog/feed', RssHandler),
+        
+        ('/blog[/?[\w\.-]*]*/feed$', RssHandler),
+        
         ('/blog', PageHandler),        
         ('/blog/.*/[\w\.-]+(?<!\.html$)', MainHandler),
         ('/blog/[\w\.-]+(?<!\.html$)', MainHandler),        
@@ -68,10 +67,8 @@ def main():
         ('/documentation', PageHandler),
         ('/documentation/.*/[\w\.-]+(?<!\.html$)', MainHandler),
         ('/documentation/[\w\.-]+(?<!\.html$)', MainHandler),        
-        ('/documentation/.*', RedirectedHandler),
+        ('/documentation/.*', RedirectedHandler),        
         
-        #('.*', RenderHandler),
-        #('/blog/.*/', MainHandler),        
         #('.*', Error404),        
     ], debug=True)
     
