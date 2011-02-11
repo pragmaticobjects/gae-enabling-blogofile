@@ -1,0 +1,22 @@
+#application: lehoangkevin
+application: optimalogiclabs
+version: 2
+runtime: python
+api_version: 1
+
+handlers:
+
+- url: /css
+  static_dir: css
+  
+- url: /js
+  static_dir: js
+
+- url: /site_img
+  static_dir: site_img  
+  
+- url: /
+  script: main.py
+  
+- url: .*
+  script: main.py  
