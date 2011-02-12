@@ -23,61 +23,29 @@ class IndexHandler(webapp.RequestHandler):
         self.response.out.write(template.render('index.html', {}))
 
 class PageHandler(webapp.RequestHandler):
-    def get(self):
-        #self.response.out.write(self.request.path)        
+    def get(self):        
         self.response.out.write(template.render(self.request.path[1:] + '/index.html', {}))
 
 class RssHandler(webapp.RequestHandler):
-    def get(self):
-        #self.response.out.write(self.request.path)
+    def get(self):        
         self.response.headers['Content-Type'] = 'application/xml'
         self.response.out.write(template.render(self.request.path[1:] + '/index.xml', {}))
 
 class RedirectedHandler(webapp.RequestHandler):
-    def get(self):        
-        #self.response.out.write(self.request.path)
+    def get(self):
         self.response.out.write(template.render(self.request.path[1:], {}))		
 
-class MainHandler(webapp.RequestHandler):
-    def get(self):
-        #self.response.out.write(self.request.path)
+class PostHandler(webapp.RequestHandler):
+    def get(self):        
         self.redirect(self.request.path + '/index.html')        
 
 def main():
     application = webapp.WSGIApplication([
-        ('/', IndexHandler),
-        
-        #('/blog', PageHandler), 
-        #('/community', PageHandler),
-        #('/demo', PageHandler),
-        #('/documentation', PageHandler),        
-        
-        ('/\w+/?$', PageHandler),
-        
-        ('/blog[/?[\w\.-]*]*/feed$', RssHandler),       
-                
+        ('/', IndexHandler),        
+        ('/\w+/?$', PageHandler),        
+        ('/blog[/?[\w\.-]*]*/feed$', RssHandler),                
         ('^[/\w\.-]+\.html$', RedirectedHandler),
-        ('^[/\w\.-]+(?<!\.html)$', MainHandler),
-                
-                
-        #('/blog/.*/[\w\.-]+(?<!\.html$)', MainHandler),
-        #('/blog/[\w\.-]+(?<!\.html$)', MainHandler),        
-        #('/blog/.*', RedirectedHandler),
-
-        
-        #('/community/.*/[\w\.-]+(?<!\.html$)', MainHandler),
-        #('/community/[\w\.-]+(?<!\.html$)', MainHandler),        
-        #('/community/.*', RedirectedHandler),
-
-        
-        #('/demo/.*/[\w\.-]+(?<!\.html$)', MainHandler),
-        #('/demo/[\w\.-]+(?<!\.html$)', MainHandler),        
-        #('/demo/.*', RedirectedHandler),
-
-       
-        #('/documentation/.*/[\w\.-]+(?<!\.html$)', MainHandler),
-        #('/documentation/[\w\.-]+(?<!\.html$)', MainHandler),        
-        #('/documentation/.*', RedirectedHandler),        
+        ('^[/\w\.-]+(?<!\.html)$', PostHandler),
         
         #('.*', Error404),        
                 
