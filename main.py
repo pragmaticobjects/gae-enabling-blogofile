@@ -47,29 +47,40 @@ def main():
     application = webapp.WSGIApplication([
         ('/', IndexHandler),
         
-        ('/blog[/?[\w\.-]*]*/feed$', RssHandler),
+        #('/blog', PageHandler), 
+        #('/community', PageHandler),
+        #('/demo', PageHandler),
+        #('/documentation', PageHandler),        
         
-        ('/blog', PageHandler),        
-        ('/blog/.*/[\w\.-]+(?<!\.html$)', MainHandler),
-        ('/blog/[\w\.-]+(?<!\.html$)', MainHandler),        
-        ('/blog/.*', RedirectedHandler),
+        ('/\w+/?$', PageHandler),
+        
+        ('/blog[/?[\w\.-]*]*/feed$', RssHandler),       
+                
+        ('^[/\w\.-]+(\.html)$', RedirectedHandler),
+        ('^[/\w\.-]+(?<!\.html)$', MainHandler),
+                
+                
+        #('/blog/.*/[\w\.-]+(?<!\.html$)', MainHandler),
+        #('/blog/[\w\.-]+(?<!\.html$)', MainHandler),        
+        #('/blog/.*', RedirectedHandler),
 
-        ('/community', PageHandler),
-        ('/community/.*/[\w\.-]+(?<!\.html$)', MainHandler),
-        ('/community/[\w\.-]+(?<!\.html$)', MainHandler),        
-        ('/community/.*', RedirectedHandler),
+        
+        #('/community/.*/[\w\.-]+(?<!\.html$)', MainHandler),
+        #('/community/[\w\.-]+(?<!\.html$)', MainHandler),        
+        #('/community/.*', RedirectedHandler),
 
-        ('/demo', PageHandler),
-        ('/demo/.*/[\w\.-]+(?<!\.html$)', MainHandler),
-        ('/demo/[\w\.-]+(?<!\.html$)', MainHandler),        
-        ('/demo/.*', RedirectedHandler),
+        
+        #('/demo/.*/[\w\.-]+(?<!\.html$)', MainHandler),
+        #('/demo/[\w\.-]+(?<!\.html$)', MainHandler),        
+        #('/demo/.*', RedirectedHandler),
 
-        ('/documentation', PageHandler),
-        ('/documentation/.*/[\w\.-]+(?<!\.html$)', MainHandler),
-        ('/documentation/[\w\.-]+(?<!\.html$)', MainHandler),        
-        ('/documentation/.*', RedirectedHandler),        
+       
+        #('/documentation/.*/[\w\.-]+(?<!\.html$)', MainHandler),
+        #('/documentation/[\w\.-]+(?<!\.html$)', MainHandler),        
+        #('/documentation/.*', RedirectedHandler),        
         
         #('.*', Error404),        
+                
     ], debug=True)
     
     util.run_wsgi_app(application)
