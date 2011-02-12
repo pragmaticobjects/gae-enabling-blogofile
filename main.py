@@ -56,7 +56,7 @@ def main():
         
         ('/blog[/?[\w\.-]*]*/feed$', RssHandler),       
                 
-        ('^[/\w\.-]+(\.html)$', RedirectedHandler),
+        ('^[/\w\.-]+\.html$', RedirectedHandler),
         ('^[/\w\.-]+(?<!\.html)$', MainHandler),
                 
                 
